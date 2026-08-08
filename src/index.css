@@ -1,47 +1,30 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/figtree";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* ================================
-     HealTogether Brand Colors
-  ================================= */
-
   --ht-ink: #051F20;
-
   --ht-green-soft: #DAF1DE;
-
   --ht-teal: #0FA3A0;
   --ht-teal-dark: #087F7A;
-
   --ht-blue: #7DB7E8;
   --ht-blue-dark: #3B82C4;
-
   --ht-background: #F8FFFA;
   --ht-surface: #FFFFFF;
-
   --ht-border: #CDE7D3;
-
   --ht-muted: #5A6B6C;
   --ht-muted-light: #7A8B8C;
-
-  /* Status */
   --ht-success: #16A34A;
   --ht-success-bg: #DCFCE7;
-
   --ht-warning: #F59E0B;
   --ht-warning-bg: #FEF3C7;
-
   --ht-danger: #DC2626;
   --ht-danger-bg: #FEE2E2;
-
   --ht-info: #2563EB;
   --ht-info-bg: #DBEAFE;
 
-  /* shadcn semantic tokens mapped to the HealTogether palette */
   --background: var(--ht-background);
   --foreground: var(--ht-ink);
   --card: var(--ht-surface);
@@ -76,131 +59,31 @@
   --sidebar-ring: var(--ht-teal);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-body {
-  margin: 0;
-
-  font-family: "Wix Madefor Text", sans-serif;
-
-  background: var(--ht-background);
-  color: var(--ht-ink);
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Wix Madefor Display", sans-serif;
-  color: var(--ht-ink);
-}
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-}
-
 @theme inline {
-  /* Fonts */
   --font-sans: "Wix Madefor Text", sans-serif;
   --font-display: "Wix Madefor Display", sans-serif;
+  --font-heading: "Wix Madefor Display", sans-serif;
 
-  /* HealTogether Colors */
   --color-ht-ink: var(--ht-ink);
-
   --color-ht-green-soft: var(--ht-green-soft);
-
   --color-ht-teal: var(--ht-teal);
   --color-ht-teal-dark: var(--ht-teal-dark);
-
   --color-ht-blue: var(--ht-blue);
   --color-ht-blue-dark: var(--ht-blue-dark);
-
   --color-ht-background: var(--ht-background);
   --color-ht-surface: var(--ht-surface);
-
   --color-ht-border: var(--ht-border);
-
   --color-ht-muted: var(--ht-muted);
-
+  --color-ht-muted-light: var(--ht-muted-light);
   --color-ht-success: var(--ht-success);
+  --color-ht-success-bg: var(--ht-success-bg);
   --color-ht-warning: var(--ht-warning);
+  --color-ht-warning-bg: var(--ht-warning-bg);
   --color-ht-danger: var(--ht-danger);
+  --color-ht-danger-bg: var(--ht-danger-bg);
   --color-ht-info: var(--ht-info);
+  --color-ht-info-bg: var(--ht-info-bg);
 
-  /* shadcn semantic utilities */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -241,44 +124,89 @@ code {
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--ht-background);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  font-family: "Wix Madefor Text", system-ui, sans-serif;
+  background: var(--ht-background);
+  color: var(--ht-ink);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Wix Madefor Display", system-ui, sans-serif;
+  color: var(--ht-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;}
+    @apply border-border outline-ring/50;
+  }
+
   body {
-    @apply bg-background text-foreground;}
+    @apply bg-background text-foreground;
+  }
+
   html {
-    @apply font-sans;}}
+    @apply font-sans;
+  }
+}

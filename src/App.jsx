@@ -1,44 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-function Landing() {
-  return (
-    <div className="min-h-screen bg-green-100 p-10">
-      <h1 className="text-5xl font-bold text-green-950">
-        HealTogether Landing
-      </h1>
-    </div>
-  )
-}
-
-function Dashboard() {
-  return (
-    <div className="min-h-screen bg-blue-100 p-10">
-      <h1 className="text-5xl font-bold">
-        Dashboard Works
-      </h1>
-    </div>
-  )
-}
-
-function Medicines() {
-  return (
-    <div className="min-h-screen bg-yellow-100 p-10">
-      <h1 className="text-5xl font-bold">
-        Medicines Works
-      </h1>
-    </div>
-  )
-}
-
-function Emergency() {
-  return (
-    <div className="min-h-screen bg-red-100 p-10">
-      <h1 className="text-5xl font-bold">
-        Emergency Works
-      </h1>
-    </div>
-  )
-}
+import Caregiver from "@/pages/Caregiver"
+import Dashboard from "@/pages/Dashboard"
+import Emergency from "@/pages/Emergency"
+import Landing from "@/pages/Landing"
+import Login from "@/pages/Login"
+import Medicines from "@/pages/Medicines"
+import Reports from "@/pages/Reports"
+import Settings from "@/pages/Settings"
+import Signup from "@/pages/Signup"
+import Wellness from "@/pages/Wellness"
 
 function App() {
   return (
@@ -46,7 +17,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/landing" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/medicines" element={<Medicines />} />
+        <Route path="/wellness" element={<Wellness />} />
+        <Route path="/emergency" element={<Emergency />} />
+        <Route path="/caregiver" element={<Caregiver />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   )
