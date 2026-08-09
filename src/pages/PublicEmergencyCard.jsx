@@ -40,6 +40,10 @@ function ListItems({ items }) {
   )
 }
 
+function hasValidItems(items) {
+  return items?.some((item) => (typeof item === "string" ? item.trim() : item))
+}
+
 function UnavailableCard() {
   return (
     <main className="min-h-screen bg-ht-background px-4 py-8 text-ht-ink sm:px-6">
@@ -145,17 +149,23 @@ function PublicEmergencyCard() {
           </section>
         ) : null}
 
-        <Section title="Allergies">
-          <ListItems items={card.selectedAllergies} />
-        </Section>
+        {hasValidItems(card.selectedAllergies) ? (
+          <Section title="Allergies">
+            <ListItems items={card.selectedAllergies} />
+          </Section>
+        ) : null}
 
-        <Section title="Medical Conditions">
-          <ListItems items={card.selectedConditions} />
-        </Section>
+        {hasValidItems(card.selectedConditions) ? (
+          <Section title="Medical Conditions">
+            <ListItems items={card.selectedConditions} />
+          </Section>
+        ) : null}
 
-        <Section title="Current Medicines">
-          <ListItems items={card.selectedMedicines} />
-        </Section>
+        {hasValidItems(card.selectedMedicines) ? (
+          <Section title="Current Medicines">
+            <ListItems items={card.selectedMedicines} />
+          </Section>
+        ) : null}
 
         {card.selectedEmergencyContacts?.length ? (
           <Section title="Emergency Contact">
