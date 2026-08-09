@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { useAuth } from "@/hooks/useAuth"
 import { cn } from "@/lib/utils"
 
 import logoIcon from "@/assets/branding/brand-icon.png"
@@ -25,6 +26,11 @@ const navLinkClass =
   "rounded-full px-3 py-2 text-sm font-medium text-ht-muted transition hover:text-ht-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ht-teal/40"
 
 function Navbar() {
+  const { user, loading } = useAuth()
+  const isSignedIn = Boolean(user)
+  const appHref = user?.emailVerified ? "/dashboard" : "/verify-email"
+  const appLabel = user?.emailVerified ? "Dashboard" : "Verify Email"
+
   return (
     <header className="fixed inset-x-0 top-4 z-50 px-3 sm:top-5 sm:px-4">
       <nav
@@ -55,21 +61,35 @@ function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button
-            variant="ghost"
-            nativeButton={false}
-            className="h-10 rounded-full px-4 text-sm font-semibold text-ht-ink hover:bg-ht-green-soft/60"
-            render={<Link to="/login" />}
-          >
-            Sign In
-          </Button>
-          <Button
-            nativeButton={false}
-            className="h-10 rounded-full bg-ht-teal px-5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,163,160,0.28)] hover:bg-ht-teal-dark"
-            render={<Link to="/signup" />}
-          >
-            Get Started
-          </Button>
+          {isSignedIn ? (
+            <Button
+              nativeButton={false}
+              className="h-10 rounded-full bg-ht-teal px-5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,163,160,0.28)] hover:bg-ht-teal-dark"
+              render={<Link to={appHref} />}
+            >
+              {appLabel}
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                nativeButton={false}
+                disabled={loading}
+                className="h-10 rounded-full px-4 text-sm font-semibold text-ht-ink hover:bg-ht-green-soft/60"
+                render={<Link to="/login" />}
+              >
+                Sign In
+              </Button>
+              <Button
+                nativeButton={false}
+                disabled={loading}
+                className="h-10 rounded-full bg-ht-teal px-5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,163,160,0.28)] hover:bg-ht-teal-dark"
+                render={<Link to="/signup" />}
+              >
+                Get Started
+              </Button>
+            </>
+          )}
         </div>
 
         <div className="md:hidden">
@@ -120,31 +140,50 @@ function Navbar() {
                 ))}
 
                 <div className="mt-6 grid gap-3">
-                  <SheetClose
-                    nativeButton={false}
-                    render={
-                      <Button
-                        variant="ghost"
+                  {isSignedIn ? (
+                    <SheetClose
+                      nativeButton={false}
+                      render={
+                        <Button
+                          nativeButton={false}
+                          className="h-11 rounded-full bg-ht-teal text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,163,160,0.28)] hover:bg-ht-teal-dark"
+                          render={<Link to={appHref} />}
+                        />
+                      }
+                    >
+                      {appLabel}
+                    </SheetClose>
+                  ) : (
+                    <>
+                      <SheetClose
                         nativeButton={false}
-                        className="h-11 rounded-full text-sm font-semibold text-ht-ink hover:bg-ht-green-soft/60"
-                        render={<Link to="/login" />}
-                      />
-                    }
-                  >
-                    Sign In
-                  </SheetClose>
-                  <SheetClose
-                    nativeButton={false}
-                    render={
-                      <Button
+                        render={
+                          <Button
+                            variant="ghost"
+                            nativeButton={false}
+                            disabled={loading}
+                            className="h-11 rounded-full text-sm font-semibold text-ht-ink hover:bg-ht-green-soft/60"
+                            render={<Link to="/login" />}
+                          />
+                        }
+                      >
+                        Sign In
+                      </SheetClose>
+                      <SheetClose
                         nativeButton={false}
-                        className="h-11 rounded-full bg-ht-teal text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,163,160,0.28)] hover:bg-ht-teal-dark"
-                        render={<Link to="/signup" />}
-                      />
-                    }
-                  >
-                    Get Started
-                  </SheetClose>
+                        render={
+                          <Button
+                            nativeButton={false}
+                            disabled={loading}
+                            className="h-11 rounded-full bg-ht-teal text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,163,160,0.28)] hover:bg-ht-teal-dark"
+                            render={<Link to="/signup" />}
+                          />
+                        }
+                      >
+                        Get Started
+                      </SheetClose>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>

@@ -1,0 +1,177 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function caregiverLinkId(ownerUid) {
+      return ownerUid + "_" + request.auth.uid;
+    }
+
+    function caregiverLink(ownerUid) {
+      return get(/databases/$(database)/documents/caregiverLinks/$(caregiverLinkId(ownerUid)));
+    }
+
+    function hasActiveCaregiverLink(ownerUid) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/caregiverLinks/$(caregiverLinkId(ownerUid)))
+        && caregiverLink(ownerUid).data.status == "active";
+    }
+
+    function hasCaregiverPermission(ownerUid, permission) {
+      return hasActiveCaregiverLink(ownerUid)
+        && caregiverLink(ownerUid).data.permissions[permission] == true;
+    }
+
+    function publicEmergencyKeys() {
+      return [
+        "ownerUid",
+        "shareId",
+        "enabled",
+        "visibleFields",
+        "fullName",
+        "bloodGroup",
+        "selectedConditions",
+        "selectedAllergies",
+        "selectedMedicines",
+        "selectedEmergencyContacts",
+        "doctorContact",
+        "lastUpdated"
+      ];
+    }
+
+    function inviteKeys() {
+      return [
+        "ownerUid",
+        "ownerDisplayName",
+        "createdAt",
+        "expiresAt",
+        "status",
+        "usedAt"
+      ];
+    }
+
+    function caregiverLinkKeys() {
+      return [
+        "ownerUid",
+        "caregiverUid",
+        "ownerDisplayName",
+        "caregiverDisplayName",
+        "status",
+        "permissions",
+        "requestedAt",
+        "approvedAt",
+        "updatedAt"
+      ];
+    }
+
+    match /users/{uid} {
+      allow read, create, update: if isOwner(uid);
+      allow delete: if false;
+
+      match /medicines/{medicineId} {
+        allow read: if isOwner(uid) || hasCaregiverPermission(uid, "viewMedicineStatus");
+        allow create, update, delete: if isOwner(uid);
+      }
+
+      match /doseLogs/{doseLogId} {
+        allow read: if isOwner(uid) || hasCaregiverPermission(uid, "viewMedicineStatus");
+        allow create, update, delete: if isOwner(uid);
+      }
+
+      match /emergencyCard/{cardId} {
+        allow read: if isOwner(uid) || hasCaregiverPermission(uid, "viewEmergencyCard");
+        allow create, update, delete: if isOwner(uid);
+      }
+    }
+
+    match /publicEmergencyCards/{shareId} {
+      allow get: if resource.data.enabled == true
+        && resource.data.keys().hasOnly(publicEmergencyKeys());
+      allow list: if false;
+
+      allow create: if signedIn()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.shareId == shareId
+        && request.resource.data.keys().hasOnly(publicEmergencyKeys());
+
+      allow update: if signedIn()
+        && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.shareId == resource.data.shareId
+        && request.resource.data.keys().hasOnly(publicEmergencyKeys());
+
+      allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    match /caregiverInvites/{token} {
+      allow get: if signedIn();
+      allow list: if false;
+
+      allow create: if signedIn()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.status == "active"
+        && request.resource.data.keys().hasOnly(inviteKeys());
+
+      allow update: if signedIn()
+        && request.resource.data.keys().hasOnly(inviteKeys())
+        && (
+          resource.data.ownerUid == request.auth.uid
+          || (
+            resource.data.status == "active"
+            && request.resource.data.ownerUid == resource.data.ownerUid
+            && request.resource.data.ownerDisplayName == resource.data.ownerDisplayName
+            && request.resource.data.expiresAt == resource.data.expiresAt
+            && request.resource.data.createdAt == resource.data.createdAt
+            && request.resource.data.status == "used"
+          )
+        );
+
+      allow delete: if signedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    match /caregiverLinks/{linkId} {
+      allow get, list: if signedIn()
+        && (resource.data.ownerUid == request.auth.uid || resource.data.caregiverUid == request.auth.uid);
+
+      allow create: if signedIn()
+        && request.resource.data.caregiverUid == request.auth.uid
+        && linkId == request.resource.data.ownerUid + "_" + request.resource.data.caregiverUid
+        && request.resource.data.status == "pending"
+        && request.resource.data.permissions.viewMedicineStatus == false
+        && request.resource.data.permissions.viewEmergencyCard == false
+        && request.resource.data.keys().hasOnly(caregiverLinkKeys());
+
+      allow update: if signedIn()
+        && request.resource.data.keys().hasOnly(caregiverLinkKeys())
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.caregiverUid == resource.data.caregiverUid
+        && (
+          (
+            resource.data.ownerUid == request.auth.uid
+            && request.resource.data.ownerDisplayName == resource.data.ownerDisplayName
+            && request.resource.data.caregiverDisplayName == resource.data.caregiverDisplayName
+          )
+          || (
+            resource.data.caregiverUid == request.auth.uid
+            && request.resource.data.status == "revoked"
+            && request.resource.data.permissions == resource.data.permissions
+            && request.resource.data.ownerDisplayName == resource.data.ownerDisplayName
+            && request.resource.data.caregiverDisplayName == resource.data.caregiverDisplayName
+          )
+        );
+
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
