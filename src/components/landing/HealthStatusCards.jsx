@@ -43,15 +43,15 @@ const cards = [
 function HealthStatusCards() {
   return (
     <section
-      id="features"
+      id="quick-wins"
       className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:py-10"
-      aria-labelledby="features-heading"
+      aria-labelledby="quick-wins-heading"
     >
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-ht-teal-dark">Small wins</p>
           <h2
-            id="features-heading"
+            id="quick-wins-heading"
             className="mt-2 font-display text-2xl font-semibold leading-tight text-ht-ink sm:text-3xl"
           >
             A clearer day, one routine at a time.

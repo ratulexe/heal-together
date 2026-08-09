@@ -7,7 +7,6 @@ import {
   Moon,
   Pill,
   QrCode,
-  ShieldCheck,
   Users,
 } from "lucide-react"
 
@@ -18,13 +17,12 @@ const summaryItems = [
   { label: "Medicines", value: "3 / 4", icon: Pill, color: "text-ht-teal" },
   { label: "Water", value: "6 / 8", icon: Droplets, color: "text-ht-info" },
   { label: "Mood", value: "Calm", icon: HeartPulse, color: "text-ht-blue-dark" },
-  { label: "Sleep", value: "7.5h", icon: Moon, color: "text-ht-teal-dark" },
+  { label: "Sleep", value: "7.5 h", icon: Moon, color: "text-ht-teal-dark" },
 ]
 
 const medicines = [
   { name: "Morning Medicine", time: "8:30 AM", status: "Taken", tone: "success" },
-  { name: "Afternoon Medicine", time: "2:00 PM", status: "Upcoming", tone: "info" },
-  { name: "Evening Medicine", time: "9:00 PM", status: "Pending", tone: "warning" },
+  { name: "Evening Medicine", time: "8:00 PM", status: "Upcoming", tone: "info" },
 ]
 
 const weeklyProgress = ["done", "done", "done", "today", "rest", "rest", "rest"]
@@ -40,12 +38,11 @@ function statusClasses(tone) {
 function DashboardPreview() {
   return (
     <section
-      id="how-it-works"
-      className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:py-16"
+      className="px-4 py-10 sm:px-6 lg:py-16"
       aria-labelledby="preview-heading"
     >
       <div className="mx-auto max-w-3xl text-center">
-        <p className="text-sm font-medium text-ht-teal-dark">How it works</p>
+        <p className="text-sm font-medium text-ht-teal-dark">Product preview</p>
         <h2
           id="preview-heading"
           className="mt-3 font-display text-3xl font-semibold leading-tight text-ht-ink sm:text-4xl md:text-5xl"
@@ -53,36 +50,15 @@ function DashboardPreview() {
           One calm dashboard for the routines that matter.
         </h2>
         <p className="mt-4 text-base leading-7 text-ht-muted sm:text-lg">
-          See today’s medicines, wellness signals, emergency details, and
+          See today's medicines, wellness signals, emergency details, and
           caregiver support in one organized view.
         </p>
       </div>
 
-      <div className="relative mt-10">
-        <div className="absolute -left-8 top-20 hidden rounded-3xl border border-ht-border bg-white/90 p-4 shadow-[0_18px_55px_rgba(5,31,32,0.10)] backdrop-blur lg:block">
-          <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-2xl bg-ht-green-soft text-ht-teal-dark">
-              <ShieldCheck className="size-5" aria-hidden="true" />
-            </span>
-            <div>
-              <p className="text-sm font-semibold text-ht-ink">Emergency Card</p>
-              <p className="text-xs text-ht-muted">Ready for quick access</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute -right-7 bottom-16 hidden rounded-3xl border border-ht-border bg-white/90 p-4 shadow-[0_18px_55px_rgba(5,31,32,0.10)] backdrop-blur lg:block">
-          <div className="flex items-center gap-3">
-            <span className="flex size-10 items-center justify-center rounded-2xl bg-ht-info-bg text-ht-info">
-              <Users className="size-5" aria-hidden="true" />
-            </span>
-            <div>
-              <p className="text-sm font-semibold text-ht-ink">Caregiver</p>
-              <p className="text-xs text-ht-muted">Connected</p>
-            </div>
-          </div>
-        </div>
-
+      <div
+        id="product-preview"
+        className="relative mx-auto mt-10 w-full max-w-6xl scroll-mt-28"
+      >
         <div className="overflow-hidden rounded-[2rem] border border-ht-border bg-white/75 shadow-[0_28px_90px_rgba(5,31,32,0.11)] backdrop-blur">
           <div className="flex items-center gap-2 border-b border-ht-border bg-white/80 px-5 py-4">
             <span className="size-3 rounded-full bg-ht-danger/70" />
@@ -103,7 +79,7 @@ function DashboardPreview() {
                       Good morning, Alex
                     </h3>
                     <p className="mt-2 text-sm leading-6 text-ht-muted">
-                      Here’s your health routine for today.
+                      Here's your routine for today.
                     </p>
                   </div>
                   <div className="flex items-center gap-2 rounded-full border border-ht-border bg-ht-background px-3 py-2 text-sm font-medium text-ht-muted">
@@ -135,7 +111,7 @@ function DashboardPreview() {
                   <div className="mb-4 flex items-center justify-between gap-3">
                     <div>
                       <h3 className="font-display text-xl font-semibold text-ht-ink">
-                        Today’s medicines
+                        Today's medicines
                       </h3>
                       <p className="mt-1 text-sm text-ht-muted">
                         Simple status for each routine item.
