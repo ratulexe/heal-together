@@ -85,6 +85,10 @@ service cloud.firestore {
         allow create, update, delete: if isOwner(uid);
       }
 
+      match /wellnessLogs/{dateKey} {
+        allow read, create, update, delete: if isOwner(uid);
+      }
+
       match /emergencyCard/{cardId} {
         allow read: if isOwner(uid) || hasCaregiverPermission(uid, "viewEmergencyCard");
         allow create, update, delete: if isOwner(uid);

@@ -42,6 +42,14 @@ export async function getDoseLogsForDate(userId, scheduledDate) {
   return snapshot.docs.map(withId)
 }
 
+export async function getDoseLogsForDates(userId, scheduledDates) {
+  const logsByDate = await Promise.all(
+    scheduledDates.map((scheduledDate) => getDoseLogsForDate(userId, scheduledDate))
+  )
+
+  return logsByDate.flat()
+}
+
 export async function getDoseStatus(userId, medicineId, scheduledDate, scheduledTime) {
   const snapshot = await getDoc(doseLogDocument(userId, medicineId, scheduledDate, scheduledTime))
   return snapshot.exists() ? withId(snapshot) : null
